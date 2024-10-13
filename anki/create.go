@@ -1,10 +1,11 @@
 package anki
 
 import (
-	"github.com/jszwec/csvutil"
 	"os"
-	"songs-srs/model"
 	"strings"
+
+	"github.com/jszwec/csvutil"
+	"language-srs/model"
 )
 
 func CreateSRSDeck(input []model.Transliterate, name string) {

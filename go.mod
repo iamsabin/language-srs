@@ -1,4 +1,4 @@
-module songs-srs
+module language-srs
 
 go 1.22.2
 

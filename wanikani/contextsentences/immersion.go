@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"songs-srs/wanikani"
+	"language-srs/wanikani"
 )
 
 type Response struct {

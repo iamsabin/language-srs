@@ -3,7 +3,7 @@ package main
 import (
 	"strconv"
 
-	"songs-srs/wanikani"
+	"language-srs/wanikani"
 )
 
 var recentMistakes = []string{

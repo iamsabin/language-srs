@@ -2,14 +2,15 @@ package main
 
 import (
 	"os"
-	"songs-srs/anki"
-	"songs-srs/known"
+
+	"language-srs/anki"
+	"language-srs/known"
 
 	"github.com/jszwec/csvutil"
 
-	"songs-srs/model"
-	"songs-srs/transliterate"
-	"songs-srs/wanikani"
+	"language-srs/model"
+	"language-srs/transliterate"
+	"language-srs/wanikani"
 )
 
 type Input struct {

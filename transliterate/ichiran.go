@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"os/exec"
-	"songs-srs/transliterate/jisho"
 	"strconv"
 	"strings"
 
-	"songs-srs/model"
+	"language-srs/transliterate/jisho"
+
+	"language-srs/model"
 )
 
 func Transliterate(input string) []model.Transliterate {

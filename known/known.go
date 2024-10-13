@@ -1,14 +1,15 @@
 package known
 
 import (
-	"github.com/jszwec/csvutil"
 	"log"
 	"os"
 	"path/filepath"
-	"songs-srs/anki"
-	"songs-srs/wanikani"
 	"strconv"
 	"strings"
+
+	"github.com/jszwec/csvutil"
+	"language-srs/anki"
+	"language-srs/wanikani"
 )
 
 func GetSubjects() []wanikani.Subject {

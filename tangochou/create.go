@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"songs-srs/model"
+	"language-srs/model"
 
 	"github.com/google/uuid"
 )
@@ -126,7 +126,8 @@ func createTangoChouDeck(subjects []Subject, filename string) {
 func splitTangoChouSubjects(subjects []Subject) [][]Subject {
 	maxContentInOneDeck := 10
 
-	var splittedSubjects = make([][]Subject, len(subjects)/maxContentInOneDeck*2)
+	var splittedSubjects = make([][]Subject,
+		len(subjects)/maxContentInOneDeck*2)
 
 	var currentDeckCounter = 0
 	for i, v := range subjects {
@@ -134,7 +135,8 @@ func splitTangoChouSubjects(subjects []Subject) [][]Subject {
 			splittedSubjects[currentDeckCounter] = []Subject{}
 		}
 
-		splittedSubjects[currentDeckCounter] = append(splittedSubjects[currentDeckCounter], v)
+		splittedSubjects[currentDeckCounter] = append(splittedSubjects[currentDeckCounter],
+			v)
 
 		if (i+1)%maxContentInOneDeck == 0 {
 			currentDeckCounter++

@@ -5,7 +5,7 @@ import (
 
 	"github.com/jszwec/csvutil"
 
-	"songs-srs/wanikani"
+	"language-srs/wanikani"
 )
 
 // // API Driven
