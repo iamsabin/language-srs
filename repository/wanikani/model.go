@@ -1,7 +1,7 @@
 package wanikani
 
 type Subject struct {
-	ID   string `csv:"id"`
+	ID   int    `csv:"id"`
 	Text string `csv:"text"`
 }
 
