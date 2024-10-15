@@ -7,8 +7,8 @@ type Repository interface {
 }
 
 type AnkiRepository interface {
-	CreateWaniKaniLookAlikeDecks() ([]string, error)
-	CreateImmersionDecks(output []model.AnkiFormat, filename string)
+	CreateWaniKaniLookAlikeDecks(input []model.Transliterate, name string)
+	CreateImmersionDecks(output []model.ImmersionAnkiFormat, filename string)
 }
 
 type repo struct {

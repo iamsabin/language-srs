@@ -9,14 +9,10 @@ import (
 	"language-srs/model"
 )
 
-func (a ankiRepository) CreateWaniKaniLookAlikeDecks() ([]string, error) {
-	// TODO implement me
-	panic("implement me")
-}
-
-func CreateSRSDeck(input []model.Transliterate, name string) {
-	radicalAnki := []Anki{}
-	vocabAnki := []Anki{}
+func (a ankiRepository) CreateWaniKaniLookAlikeDecks(input []model.Transliterate,
+	name string) {
+	radicalAnki := []model.WaniKaniAnkiFormat{}
+	vocabAnki := []model.WaniKaniAnkiFormat{}
 
 	for i, v := range input {
 		if !isKanjiWord(v.Kanji) {
@@ -24,7 +20,7 @@ func CreateSRSDeck(input []model.Transliterate, name string) {
 				v.Meanings = []string{v.Kana}
 			}
 			if !isAlreadyThere(radicalAnki, v.Kanji) {
-				radicalAnki = append(radicalAnki, Anki{
+				radicalAnki = append(radicalAnki, model.WaniKaniAnkiFormat{
 					Title:               v.Kanji,
 					Meaning:             v.Meanings[0],
 					AlternativeMeanings: strings.Join(v.Meanings, "; "),
@@ -36,7 +32,7 @@ func CreateSRSDeck(input []model.Transliterate, name string) {
 		}
 
 		if !isAlreadyThere(vocabAnki, v.Kanji) {
-			vocabAnki = append(vocabAnki, Anki{
+			vocabAnki = append(vocabAnki, model.WaniKaniAnkiFormat{
 				Title:               v.Kanji,
 				Meaning:             v.Meanings[0],
 				AlternativeMeanings: strings.Join(v.Meanings, "; "),
@@ -50,7 +46,7 @@ func CreateSRSDeck(input []model.Transliterate, name string) {
 	createAnkiDeck(vocabAnki, name+"-vocab")
 }
 
-func isAlreadyThere(subjects []Anki, title string) bool {
+func isAlreadyThere(subjects []model.WaniKaniAnkiFormat, title string) bool {
 	for _, s := range subjects {
 		if s.Title == title {
 			return true
@@ -60,7 +56,7 @@ func isAlreadyThere(subjects []Anki, title string) bool {
 	return false
 }
 
-func createAnkiDeck(subjects []Anki, filename string) {
+func createAnkiDeck(subjects []model.WaniKaniAnkiFormat, filename string) {
 
 	val, err := csvutil.Marshal(subjects)
 	if err != nil {

@@ -9,7 +9,7 @@ import (
 	"language-srs/model"
 )
 
-func GetImmersionInfo(keyword model.WaniKaniSubject) ([]model.AnkiFormat,
+func GetImmersionInfo(keyword model.WaniKaniSubject) ([]model.ImmersionAnkiFormat,
 	error) {
 	// Define the API endpoint with the query parameters
 	apiURL := fmt.Sprintf("https://api.immersionkit.com/look_up_dictionary?keyword=%s&sort=shortness&wk=18",
@@ -38,7 +38,7 @@ func GetImmersionInfo(keyword model.WaniKaniSubject) ([]model.AnkiFormat,
 		return nil, err
 	}
 
-	var ankiFormats []model.AnkiFormat
+	var ankiFormats []model.ImmersionAnkiFormat
 	// Print the parsed data
 	for _, item := range response.Data {
 
@@ -46,7 +46,7 @@ func GetImmersionInfo(keyword model.WaniKaniSubject) ([]model.AnkiFormat,
 			if i > 2 {
 				break
 			}
-			ankiFormats = append(ankiFormats, model.AnkiFormat{
+			ankiFormats = append(ankiFormats, model.ImmersionAnkiFormat{
 				Image:              v.ImageUrl,
 				ReadingText:        v.Sentence,
 				Audio:              v.SoundUrl,

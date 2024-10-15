@@ -13,7 +13,7 @@ import (
 type ankiRepository struct {
 }
 
-func (a ankiRepository) CreateImmersionDecks(output []model.AnkiFormat,
+func (a ankiRepository) CreateImmersionDecks(output []model.ImmersionAnkiFormat,
 	filename string) {
 	for i := range output {
 		output[i].Image = fmt.Sprintf("<img src=\"%s\">", output[i].Image)
