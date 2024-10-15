@@ -5,8 +5,14 @@ import (
 	"strings"
 
 	"github.com/jszwec/csvutil"
+
 	"language-srs/model"
 )
+
+func (a ankiRepository) CreateWaniKaniLookAlikeDecks() ([]string, error) {
+	// TODO implement me
+	panic("implement me")
+}
 
 func CreateSRSDeck(input []model.Transliterate, name string) {
 	radicalAnki := []Anki{}

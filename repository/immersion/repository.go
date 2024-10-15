@@ -1,4 +1,4 @@
-package main
+package immersion
 
 import (
 	"encoding/json"
@@ -6,31 +6,11 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"language-srs/wanikani"
+	"language-srs/model"
 )
 
-type Response struct {
-	Data []struct {
-		CategoryCount struct {
-			Anime      int `json:"anime"`
-			Drama      int `json:"drama"`
-			Games      int `json:"games"`
-			Literature int `json:"literature"`
-			News       int `json:"news"`
-		} `json:"category_count"`
-		ExactMatch string `json:"exact_match"`
-		Examples   []struct {
-			Category             string `json:"category"`
-			ImageUrl             string `json:"image_url"`
-			Sentence             string `json:"sentence"`
-			SentenceWithFurigana string `json:"sentence_with_furigana"`
-			SoundUrl             string `json:"sound_url"`
-			Translation          string `json:"translation"`
-		} `json:"examples"`
-	} `json:"data"`
-}
-
-func getContextSentences(keyword wanikani.Subject) ([]AnkiFormat, error) {
+func GetImmersionInfo(keyword model.WaniKaniSubject) ([]model.AnkiFormat,
+	error) {
 	// Define the API endpoint with the query parameters
 	apiURL := fmt.Sprintf("https://api.immersionkit.com/look_up_dictionary?keyword=%s&sort=shortness&wk=18",
 		keyword.Text)
@@ -58,7 +38,7 @@ func getContextSentences(keyword wanikani.Subject) ([]AnkiFormat, error) {
 		return nil, err
 	}
 
-	var ankiFormats []AnkiFormat
+	var ankiFormats []model.AnkiFormat
 	// Print the parsed data
 	for _, item := range response.Data {
 
@@ -66,7 +46,7 @@ func getContextSentences(keyword wanikani.Subject) ([]AnkiFormat, error) {
 			if i > 2 {
 				break
 			}
-			ankiFormats = append(ankiFormats, AnkiFormat{
+			ankiFormats = append(ankiFormats, model.AnkiFormat{
 				Image:              v.ImageUrl,
 				ReadingText:        v.Sentence,
 				Audio:              v.SoundUrl,

@@ -1,7 +1,14 @@
 package repository
 
+import "language-srs/model"
+
 type Repository interface {
 	GetKnownWords() ([]string, error)
+}
+
+type AnkiRepository interface {
+	CreateWaniKaniLookAlikeDecks() ([]string, error)
+	CreateImmersionDecks(output []model.AnkiFormat, filename string)
 }
 
 type repo struct {

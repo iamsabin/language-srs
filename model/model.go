@@ -12,6 +12,11 @@ type AnkiFormat struct {
 	Audio              string `csv:"audio"`
 	AnswerText         string `csv:"answerText"`
 	AnswerTextFurigana string `csv:"answerTextFurigana"`
-	SortOrder          string `csv:"sortOrder"`
+	SortOrder          int    `csv:"sortOrder"`
 	OriginalText       string `csv:"originalText"`
+}
+
+type WaniKaniSubject struct {
+	ID   int    `csv:"id"`
+	Text string `csv:"text"`
 }
