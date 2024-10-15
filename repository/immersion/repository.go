@@ -12,7 +12,7 @@ import (
 func GetImmersionInfo(keyword model.WaniKaniSubject) ([]model.ImmersionAnkiFormat,
 	error) {
 	// Define the API endpoint with the query parameters
-	apiURL := fmt.Sprintf("https://api.immersionkit.com/look_up_dictionary?keyword=%s&sort=shortness&wk=18",
+	apiURL := fmt.Sprintf("https://api.immersionkit.com/look_up_dictionary?keyword=%s&category=drama&sort=shortness&wk=18",
 		keyword.Text)
 
 	// Make the HTTP GET request
