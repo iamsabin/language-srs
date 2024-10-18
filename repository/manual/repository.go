@@ -65,8 +65,3 @@ func (r repo) GetKnownWords() ([]string, error) {
 
 	return knownWords, nil
 }
-
-func (r repo) SetKnownWords(strings []string) error {
-	// TODO implement me
-	panic("implement me")
-}

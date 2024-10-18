@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"fmt"
-
 	"language-srs/model"
 	"language-srs/repository/manual"
 	"language-srs/repository/wanikani"
@@ -10,7 +8,6 @@ import (
 
 type Repository interface {
 	GetKnownWords() ([]string, error)
-	SetKnownWords([]string) error
 }
 
 type AnkiRepository interface {
@@ -21,10 +18,6 @@ type AnkiRepository interface {
 type repo struct {
 	waniKaniRepo Repository
 	manualRepo   Repository
-}
-
-func (r repo) SetKnownWords(strings []string) error {
-	return fmt.Errorf("SetKnownWords not implemented")
 }
 
 func (r repo) GetKnownWords() ([]string, error) {
