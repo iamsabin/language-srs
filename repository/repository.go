@@ -8,6 +8,7 @@ import (
 
 type Repository interface {
 	GetKnownWords() ([]string, error)
+	SetKnownWords([]string) error
 }
 
 type AnkiRepository interface {

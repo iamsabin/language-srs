@@ -1,43 +1,29 @@
-package known
+package manual
 
 import (
 	"log"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 
 	"github.com/jszwec/csvutil"
-	"language-srs/anki"
-	"language-srs/wanikani"
+
+	"language-srs/model"
+	"language-srs/repository"
 )
 
-func GetSubjects() []wanikani.Subject {
-	ankis := getInput()
-
-	var allSubjects []wanikani.Subject
-
-	for i, v := range ankis {
-		allSubjects = append(allSubjects, wanikani.Subject{
-			ID:   strconv.Itoa(i),
-			Text: v.Title,
-		})
-		if v.Reading != "" {
-			allSubjects = append(allSubjects, wanikani.Subject{
-				ID:   strconv.Itoa(i),
-				Text: v.Reading,
-			})
-		}
-	}
-
-	return allSubjects
+func NewRepository() repository.Repository {
+	return repo{}
 }
 
-func getInput() []anki.Anki {
-	var input []anki.Anki
+type repo struct {
+}
+
+func (r repo) GetKnownWords() ([]string, error) {
+	var input []model.WaniKaniAnkiFormat
 
 	// Directory containing the CSV files
-	dir := "known/output"
+	dir := "repository/manual/output"
 
 	// Read the directory
 	files, err := os.ReadDir(dir)
@@ -56,7 +42,7 @@ func getInput() []anki.Anki {
 				log.Fatalf("failed to open file: %v", err)
 			}
 
-			var singleInput []anki.Anki
+			var singleInput []model.WaniKaniAnkiFormat
 			e := csvutil.Unmarshal(f, &singleInput)
 
 			if e != nil {
@@ -69,5 +55,18 @@ func getInput() []anki.Anki {
 		}
 	}
 
-	return input
+	var knownWords []string
+	for _, v := range input {
+		knownWords = append(knownWords, v.Title)
+		if v.Reading != "" {
+			knownWords = append(knownWords, v.Reading)
+		}
+	}
+
+	return knownWords, nil
+}
+
+func (r repo) SetKnownWords(strings []string) error {
+	// TODO implement me
+	panic("implement me")
 }
