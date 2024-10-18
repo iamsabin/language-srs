@@ -1,8 +1,10 @@
 package repository
 
 import (
+	"fmt"
+
 	"language-srs/model"
-	"language-srs/repository/anki"
+	"language-srs/repository/manual"
 	"language-srs/repository/wanikani"
 )
 
@@ -18,19 +20,25 @@ type AnkiRepository interface {
 
 type repo struct {
 	waniKaniRepo Repository
-	ankiRepo     Repository
+	manualRepo   Repository
+}
+
+func (r repo) SetKnownWords(strings []string) error {
+	return fmt.Errorf("SetKnownWords not implemented")
 }
 
 func (r repo) GetKnownWords() ([]string, error) {
-	// TODO implement me
-	panic("implement me")
+	wanikaniKnownWords, _ := r.waniKaniRepo.GetKnownWords()
+	manualKnownWords, _ := r.manualRepo.GetKnownWords()
+
+	return append(wanikaniKnownWords, manualKnownWords...), nil
 }
 
 func NewRepository() Repository {
 	waniKaniRepo := wanikani.NewRepository()
-	ankiRepo := anki.NewAnkiRepository()
+	manualRepo := manual.NewRepository()
 	return repo{
 		waniKaniRepo: waniKaniRepo,
-		ankiRepo:     ankiRepo,
+		manualRepo:   manualRepo,
 	}
 }
