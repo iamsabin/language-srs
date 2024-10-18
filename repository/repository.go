@@ -1,6 +1,10 @@
 package repository
 
-import "language-srs/model"
+import (
+	"language-srs/model"
+	"language-srs/repository/anki"
+	"language-srs/repository/wanikani"
+)
 
 type Repository interface {
 	GetKnownWords() ([]string, error)
@@ -12,6 +16,8 @@ type AnkiRepository interface {
 }
 
 type repo struct {
+	waniKaniRepo Repository
+	ankiRepo     Repository
 }
 
 func (r repo) GetKnownWords() ([]string, error) {
@@ -20,5 +26,10 @@ func (r repo) GetKnownWords() ([]string, error) {
 }
 
 func NewRepository() Repository {
-	return repo{}
+	waniKaniRepo := wanikani.NewRepository()
+	ankiRepo := anki.NewAnkiRepository()
+	return repo{
+		waniKaniRepo: waniKaniRepo,
+		ankiRepo:     ankiRepo,
+	}
 }
