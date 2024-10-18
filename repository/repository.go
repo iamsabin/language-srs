@@ -15,6 +15,11 @@ type AnkiRepository interface {
 	CreateImmersionDecks(output []model.ImmersionAnkiFormat, filename string)
 }
 
+type ImmersionRepository interface {
+	GetImmersionInfo(keyword model.WaniKaniSubject) ([]model.ImmersionAnkiFormat,
+		error)
+}
+
 type repo struct {
 	waniKaniRepo Repository
 	manualRepo   Repository
