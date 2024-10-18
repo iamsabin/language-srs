@@ -63,7 +63,7 @@ func createAnkiDeck(subjects []model.WaniKaniAnkiFormat, filename string) {
 		panic(err)
 	}
 
-	file, err := os.Create("output/" + filename + ".csv")
+	file, err := os.Create("output/wanikani/" + filename + ".csv")
 	if err != nil {
 		panic(err)
 	}
