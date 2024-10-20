@@ -2,6 +2,7 @@ package anki
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 
 	"github.com/jszwec/csvutil"
@@ -13,7 +14,8 @@ import (
 type ankiRepository struct {
 }
 
-func (a ankiRepository) CreateImmersionDecks(output []model.ImmersionAnkiFormat,
+func (a ankiRepository) CreateImmersionDecks(
+	output []model.ImmersionAnkiFormat,
 	filename string) {
 	for i := range output {
 		output[i].Image = fmt.Sprintf("<img src=\"%s\">", output[i].Image)
@@ -25,11 +27,12 @@ func (a ankiRepository) CreateImmersionDecks(output []model.ImmersionAnkiFormat,
 		panic(err)
 	}
 
-	filePath := "output/immersion/" + filename + ".csv"
-	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY,
+	filePath := "output/" + filename + ".csv"
+	file, err := os.OpenFile(
+		filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY,
 		0644)
 	if err != nil {
-		fmt.Printf("Failed to open or create file: %v\n", err)
+		slog.Error("Failed to open or create file: %v\n", err)
 		return
 	}
 
