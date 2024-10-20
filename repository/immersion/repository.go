@@ -11,24 +11,34 @@ import (
 	"language-srs/repository"
 )
 
+const (
+	MaxResults = 3
+
+	WaniKaniLevel = 18
+
+	CategoryDrama = "drama"
+	CategoryAnime = "anime"
+)
+
 type repo struct {
-	maxNumber int
+	maxNumber     int
+	category      string
+	wanikaniLevel int
 }
 
 func NewRepository() repository.ImmersionRepository {
 	return &repo{
-		maxNumber: 3,
+		maxNumber:     MaxResults,
+		category:      CategoryDrama,
+		wanikaniLevel: WaniKaniLevel,
 	}
 }
 
 func (r repo) GetImmersionInfo(keyword model.WaniKaniSubject) (
-	[]model.
-		ImmersionAnkiFormat, error) {
-	// TODO: if count/output for drama is zero, use anime
-	// Define the API endpoint with the query parameters
+	[]model.ImmersionAnkiFormat, error) {
 	apiURL := fmt.Sprintf(
-		"https://api.immersionkit.com/look_up_dictionary?keyword=%s&category=drama&sort=shortness&wk=18",
-		keyword.Text)
+		"https://api.immersionkit.com/look_up_dictionary?keyword=%s&category=%s&sort=shortness&wk=%d",
+		keyword.Text, r.category, r.wanikaniLevel)
 
 	// Make the HTTP GET request
 	resp, err := http.Get(apiURL)
@@ -87,6 +97,12 @@ func (r repo) GetImmersionInfo(keyword model.WaniKaniSubject) (
 					OriginalText:       keyword.Text,
 				})
 		}
+	}
+
+	// Check for anime category if drama is not found
+	if len(ankiFormats) == 0 && r.category != CategoryAnime {
+		r.category = CategoryAnime
+		return r.GetImmersionInfo(keyword)
 	}
 
 	return ankiFormats, nil
