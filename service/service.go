@@ -24,7 +24,8 @@ func NewService() Service {
 	return service{
 		knownWordsRepo: knownwords.NewRepository(),
 		ankiRepo:       anki.NewRepository(),
-		immersionRepo:  immersion.NewRepository(),
+		// TODO: Use wanikani level from input
+		immersionRepo: immersion.NewRepository(0),
 	}
 }
 

@@ -26,11 +26,14 @@ type repo struct {
 	wanikaniLevel int
 }
 
-func NewRepository() repository.ImmersionRepository {
+func NewRepository(waniKaniLevelLevel int) repository.ImmersionRepository {
+	if waniKaniLevelLevel == 0 {
+		waniKaniLevelLevel = WaniKaniLevel
+	}
 	return &repo{
 		maxNumber:     MaxResults,
 		category:      CategoryDrama,
-		wanikaniLevel: WaniKaniLevel,
+		wanikaniLevel: waniKaniLevelLevel,
 	}
 }
 
