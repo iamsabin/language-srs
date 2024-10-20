@@ -41,6 +41,6 @@ func (a ankiRepository) CreateImmersionDecks(output []model.ImmersionAnkiFormat,
 	}
 }
 
-func NewAnkiRepository() repository.AnkiRepository {
+func NewRepository() repository.AnkiRepository {
 	return ankiRepository{}
 }

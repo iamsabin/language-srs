@@ -7,6 +7,9 @@ import (
 
 	"language-srs/model"
 	"language-srs/repository"
+	"language-srs/repository/anki"
+	"language-srs/repository/immersion"
+	"language-srs/repository/knownwords"
 	"language-srs/repository/wanikani"
 	"language-srs/transliterate"
 )
@@ -17,7 +20,11 @@ type Service interface {
 }
 
 func NewService() Service {
-	return service{}
+	return service{
+		knownWordsRepo: knownwords.NewRepository(),
+		ankiRepo:       anki.NewRepository(),
+		immersionRepo:  immersion.NewRepository(),
+	}
 }
 
 type service struct {

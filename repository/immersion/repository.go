@@ -7,10 +7,18 @@ import (
 	"net/http"
 
 	"language-srs/model"
+	"language-srs/repository"
 )
 
-func GetImmersionInfo(keyword model.WaniKaniSubject) ([]model.ImmersionAnkiFormat,
-	error) {
+type repo struct {
+}
+
+func NewRepository() repository.ImmersionRepository {
+	return &repo{}
+}
+
+func (r repo) GetImmersionInfo(keyword model.WaniKaniSubject) ([]model.
+ImmersionAnkiFormat, error) {
 	// TODO: if count/output for drama is zero, use anime
 	// Define the API endpoint with the query parameters
 	apiURL := fmt.Sprintf("https://api.immersionkit.com/look_up_dictionary?keyword=%s&category=drama&sort=shortness&wk=18",
