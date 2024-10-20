@@ -9,7 +9,7 @@ func main() {
 	srv := service.NewService()
 
 	inputEnToJP := model.InputEnglishToJapanese{
-		Words:          []string{"すみません"},
+		Words:          []string{"すみません", "ありがとう"},
 		OutputFilename: "recentmistakes-context-sentences-deck",
 	}
 	srv.CreateEnglishToJapaneseDeck(inputEnToJP)
