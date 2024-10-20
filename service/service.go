@@ -102,8 +102,10 @@ func (s service) CreateEnglishToJapaneseDeck() {
 
 	var allImmersionAnki []model.ImmersionAnkiFormat
 	for i, v := range wordList {
-		immersionAnki, _ := s.immersionRepo.GetImmersionInfo(model.
-		WaniKaniSubject{ID: i, Text: v})
+		immersionAnki, _ := s.immersionRepo.GetImmersionInfo(
+			model.WaniKaniSubject{
+				ID: i, Text: v,
+			})
 		allImmersionAnki = append(allImmersionAnki, immersionAnki...)
 	}
 
@@ -112,6 +114,7 @@ func (s service) CreateEnglishToJapaneseDeck() {
 		return
 	}
 
-	s.ankiRepo.CreateImmersionDecks(allImmersionAnki,
+	s.ankiRepo.CreateImmersionDecks(
+		allImmersionAnki,
 		"recentmistakes-context-sentences-deck")
 }
