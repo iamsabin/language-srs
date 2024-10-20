@@ -6,8 +6,8 @@ import (
 )
 
 type Service interface {
-	CreateTransliterateDeck()
-	CreateWaniKaniContextSentencesDeck()
+	CreateJapaneseToEnglishDeck()
+	CreateEnglishToJapaneseDeck()
 }
 
 type service struct {
@@ -16,12 +16,12 @@ type service struct {
 	immersionRepo  repository.ImmersionRepository
 }
 
-func (s service) CreateTransliterateDeck() {
+func (s service) CreateJapaneseToEnglishDeck() {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (s service) CreateWaniKaniContextSentencesDeck() {
+func (s service) CreateEnglishToJapaneseDeck() {
 	var wordList []string
 
 	var allImmersionAnki []model.ImmersionAnkiFormat
