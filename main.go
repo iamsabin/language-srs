@@ -1,9 +1,16 @@
 package main
 
-import "language-srs/service"
+import (
+	"language-srs/model"
+	"language-srs/service"
+)
 
 func main() {
 	srv := service.NewService()
 
-	srv.CreateEnglishToJapaneseDeck()
+	inputEnToJP := model.InputEnglishToJapanese{
+		Words:          []string{"すみません"},
+		OutputFilename: "recentmistakes-context-sentences-deck",
+	}
+	srv.CreateEnglishToJapaneseDeck(inputEnToJP)
 }

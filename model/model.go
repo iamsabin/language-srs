@@ -28,3 +28,8 @@ type WaniKaniSubject struct {
 	ID   int    `csv:"id"`
 	Text string `csv:"text"`
 }
+
+type InputEnglishToJapanese struct {
+	Words          []string
+	OutputFilename string
+}

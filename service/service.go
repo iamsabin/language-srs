@@ -17,7 +17,7 @@ import (
 
 type Service interface {
 	CreateJapaneseToEnglishDeck()
-	CreateEnglishToJapaneseDeck()
+	CreateEnglishToJapaneseDeck(input model.InputEnglishToJapanese)
 }
 
 func NewService() Service {
@@ -92,16 +92,14 @@ func getInput(inputFile string) []Input {
 	return input
 }
 
-func (s service) CreateEnglishToJapaneseDeck() {
-	var wordList []string
-
-	if len(wordList) == 0 {
+func (s service) CreateEnglishToJapaneseDeck(input model.InputEnglishToJapanese) {
+	if len(input.Words) == 0 {
 		slog.Warn("no words to create deck")
 		return
 	}
 
 	var allImmersionAnki []model.ImmersionAnkiFormat
-	for i, v := range wordList {
+	for i, v := range input.Words {
 		immersionAnki, _ := s.immersionRepo.GetImmersionInfo(
 			model.WaniKaniSubject{
 				ID: i, Text: v,
@@ -116,5 +114,5 @@ func (s service) CreateEnglishToJapaneseDeck() {
 
 	s.ankiRepo.CreateImmersionDecks(
 		allImmersionAnki,
-		"recentmistakes-context-sentences-deck")
+		input.OutputFilename)
 }
