@@ -1,6 +1,7 @@
 package service
 
 import (
+	"log/slog"
 	"os"
 
 	"github.com/jszwec/csvutil"
@@ -94,6 +95,11 @@ func getInput(inputFile string) []Input {
 func (s service) CreateEnglishToJapaneseDeck() {
 	var wordList []string
 
+	if len(wordList) == 0 {
+		slog.Warn("no words to create deck")
+		return
+	}
+
 	var allImmersionAnki []model.ImmersionAnkiFormat
 	for i, v := range wordList {
 		immersionAnki, _ := s.immersionRepo.GetImmersionInfo(model.
@@ -101,6 +107,11 @@ func (s service) CreateEnglishToJapaneseDeck() {
 		allImmersionAnki = append(allImmersionAnki, immersionAnki...)
 	}
 
+	if len(allImmersionAnki) == 0 {
+		slog.Error("no response from immersion kit to create deck")
+		return
+	}
+
 	s.ankiRepo.CreateImmersionDecks(allImmersionAnki,
-		"recentmistakes-context-sentences-deck.csv")
+		"recentmistakes-context-sentences-deck")
 }
