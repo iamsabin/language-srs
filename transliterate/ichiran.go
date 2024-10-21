@@ -2,7 +2,7 @@ package transliterate
 
 import (
 	"encoding/json"
-	"fmt"
+	"log/slog"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -14,7 +14,8 @@ import (
 
 func Transliterate(input string) []model.Transliterate {
 	input = strings.ReplaceAll(input, "'", "")
-	cmd := exec.Command("/bin/sh", "-c",
+	cmd := exec.Command(
+		"/bin/sh", "-c",
 		"docker exec ichiran-main-1 ichiran-cli --full "+input)
 	// cmd := exec.Command("docker", "exec", "ichiran-master-main-1", "ichiran-cli", "--full", input)
 	res, err := cmd.Output()
@@ -40,12 +41,12 @@ func unquoteUnicodeFields(wordInfo *WordInfo) {
 	// }
 	wordInfo.Text, err = strconv.Unquote(`"` + wordInfo.Text + `"`)
 	if err != nil {
-		fmt.Println("Error unquoting Text:", err)
+		slog.Error("Error unquoting Text:", err)
 		return
 	}
 	wordInfo.Kana, err = strconv.Unquote(`"` + wordInfo.Kana + `"`)
 	if err != nil {
-		fmt.Println("Error unquoting Kana:", err)
+		slog.Error("Error unquoting Kana:", err)
 		return
 	}
 	for i := range wordInfo.Gloss {
@@ -73,7 +74,7 @@ func unMarshalJSON(input []byte) []WordInfo {
 	var data []interface{}
 	err := json.Unmarshal(input, &data)
 	if err != nil {
-		fmt.Println("Error unmarshaling JSON:", err)
+		slog.Error("Error unmarshaling JSON:", err)
 		return nil
 	}
 
@@ -147,11 +148,12 @@ func Serialise(input []WordInfo) []model.Transliterate {
 		if len(meanings) == 0 {
 			meanings = jisho.SearchJisho(v.Text)
 		}
-		result = append(result, model.Transliterate{
-			Kanji:    v.Text,
-			Kana:     v.Kana,
-			Meanings: meanings,
-		})
+		result = append(
+			result, model.Transliterate{
+				Kanji:    v.Text,
+				Kana:     v.Kana,
+				Meanings: meanings,
+			})
 	}
 
 	return result

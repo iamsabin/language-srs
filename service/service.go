@@ -12,7 +12,6 @@ import (
 	"language-srs/repository/anki"
 	"language-srs/repository/immersion"
 	"language-srs/repository/knownwords"
-	"language-srs/repository/wanikani"
 	"language-srs/transliterate"
 )
 
@@ -46,28 +45,56 @@ func (s service) CreateJapaneseToEnglishDeck(inputFileName string) {
 	for _, i := range input {
 		o := transliterate.Transliterate(i.Japanese)
 		transliterated = append(transliterated, o...)
-		// panic("done")
 	}
 
-	// knownSubjects := wanikani.GetSubjects()
-	// knownSubjectsFromMemory := known.GetSubjects()
-	// knownSubjects = append(knownSubjects, knownSubjectsFromMemory...)
-	//
-	// var unknownTransliterated []model.Transliterate
-	//
-	// for _, t := range transliterated {
-	// 	if !hasInKnown(t, knownSubjects) {
-	// 		unknownTransliterated = append(unknownTransliterated, t)
-	// 	}
-	// }
-	//
-	// // tangochou.CreateSRSDeck(unknownTransliterated, inputFile)
-	// anki.CreateSRSDeck(unknownTransliterated, inputFile)
+	knownWords, err := s.knownWordsRepo.GetKnownWords()
+	if err != nil {
+		return
+	}
+
+	unKnownWords := getUnknownWords(transliterated, knownWords)
+
+	var allImmersionAnki []model.OutputImmersionAnkiFormat
+	for i, v := range unKnownWords {
+		val := v.Kanji
+		if val == "" {
+			val = v.Kana
+		}
+		immersionAnki, _ := s.immersionRepo.GetImmersionInfo(
+			model.WaniKaniSubject{
+				ID: i, Text: val,
+			})
+		allImmersionAnki = append(allImmersionAnki, immersionAnki...)
+	}
+
+	if len(allImmersionAnki) == 0 {
+		slog.Error("no response from immersion kit to create deck")
+		return
+	}
+
+	s.ankiRepo.CreateImmersionDecks(
+		allImmersionAnki,
+		inputFileName)
 }
 
-func hasInKnown(t model.Transliterate, knownSubjects []wanikani.Subject) bool {
-	for _, subject := range knownSubjects {
-		if subject.Text == t.Kanji || subject.Text == t.Kana {
+func getUnknownWords(
+	allWords []model.Transliterate,
+	knownWords []string) []model.Transliterate {
+
+	var unknownWords []model.Transliterate
+
+	for _, allWord := range allWords {
+		if !hasInKnown(allWord, knownWords) {
+			unknownWords = append(unknownWords, allWord)
+		}
+	}
+
+	return unknownWords
+}
+
+func hasInKnown(input model.Transliterate, knownWords []string) bool {
+	for _, knownWord := range knownWords {
+		if knownWord == input.Kana || knownWord == input.Kanji {
 			return true
 		}
 	}
