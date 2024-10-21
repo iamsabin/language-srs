@@ -74,7 +74,7 @@ func (s service) CreateJapaneseToEnglishDeck(inputFileName string) {
 
 	s.ankiRepo.CreateImmersionDecks(
 		allImmersionAnki,
-		inputFileName)
+		"jptoen/"+inputFileName)
 }
 
 func getUnknownWords(
@@ -145,5 +145,5 @@ func (s service) CreateEnglishToJapaneseDeck(input model.InputEnglishToJapanese)
 
 	s.ankiRepo.CreateImmersionDecks(
 		allImmersionAnki,
-		input.OutputFilename)
+		"entojp"+input.OutputFilename)
 }
