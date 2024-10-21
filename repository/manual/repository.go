@@ -110,7 +110,7 @@ func (r repo) getKnownWordsFromJPToENStyle() []string {
 
 	var knownWords []string
 	for _, v := range input {
-		knownWords = append(knownWords, v.JPToLearn)
+		knownWords = append(knownWords, v.OriginalText)
 	}
 
 	return knownWords

@@ -1,7 +1,6 @@
 package model
 
 type OutputImmersionAnkiFormat struct {
-	JPToLearn          string `csv:"jp"`
 	Image              string `csv:"image"`
 	ReadingText        string `csv:"readingText"`
 	Audio              string `csv:"audio"`
