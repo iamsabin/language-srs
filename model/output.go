@@ -1,12 +1,6 @@
 package model
 
-type Transliterate struct {
-	Kanji    string
-	Kana     string
-	Meanings []string
-}
-
-type ImmersionAnkiFormat struct {
+type OutputImmersionAnkiFormat struct {
 	Image              string `csv:"image"`
 	ReadingText        string `csv:"readingText"`
 	Audio              string `csv:"audio"`
@@ -16,20 +10,10 @@ type ImmersionAnkiFormat struct {
 	OriginalText       string `csv:"originalText"`
 }
 
-type WaniKaniAnkiFormat struct {
+type OutputWaniKaniAnkiFormat struct {
 	Title               string `csv:"title"`
 	Meaning             string `csv:"meaning"`
 	AlternativeMeanings string `csv:"alternative_meanings"`
 	Reading             string `csv:"readings"`
 	Index               int    `csv:"index"`
-}
-
-type WaniKaniSubject struct {
-	ID   int    `csv:"id"`
-	Text string `csv:"text"`
-}
-
-type InputEnglishToJapanese struct {
-	Words          []string
-	OutputFilename string
 }

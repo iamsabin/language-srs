@@ -38,7 +38,7 @@ func NewRepository(waniKaniLevelLevel int) repository.ImmersionRepository {
 }
 
 func (r repo) GetImmersionInfo(keyword model.WaniKaniSubject) (
-	[]model.ImmersionAnkiFormat, error) {
+	[]model.OutputImmersionAnkiFormat, error) {
 	apiURL := fmt.Sprintf(
 		"https://api.immersionkit.com/look_up_dictionary?keyword=%s&category=%s&sort=shortness&wk=%d",
 		keyword.Text, r.category, r.wanikaniLevel)
@@ -81,7 +81,7 @@ func (r repo) GetImmersionInfo(keyword model.WaniKaniSubject) (
 		return nil, unmarshallErr
 	}
 
-	var ankiFormats []model.ImmersionAnkiFormat
+	var ankiFormats []model.OutputImmersionAnkiFormat
 	// Print the parsed data
 	for _, item := range response.Data {
 
@@ -90,7 +90,7 @@ func (r repo) GetImmersionInfo(keyword model.WaniKaniSubject) (
 				break
 			}
 			ankiFormats = append(
-				ankiFormats, model.ImmersionAnkiFormat{
+				ankiFormats, model.OutputImmersionAnkiFormat{
 					Image:              v.ImageUrl,
 					ReadingText:        v.Sentence,
 					Audio:              v.SoundUrl,

@@ -1,3 +1,4 @@
 config/local.json
 .idea
 /output/
+/input/

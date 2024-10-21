@@ -10,10 +10,12 @@ type Repository interface {
 
 type AnkiRepository interface {
 	CreateWaniKaniLookAlikeDecks(input []model.Transliterate, name string)
-	CreateImmersionDecks(output []model.ImmersionAnkiFormat, filename string)
+	CreateImmersionDecks(
+		output []model.OutputImmersionAnkiFormat, filename string)
 }
 
 type ImmersionRepository interface {
-	GetImmersionInfo(keyword model.WaniKaniSubject) ([]model.ImmersionAnkiFormat,
+	GetImmersionInfo(keyword model.WaniKaniSubject) (
+		[]model.OutputImmersionAnkiFormat,
 		error)
 }

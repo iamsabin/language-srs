@@ -9,10 +9,11 @@ import (
 	"language-srs/model"
 )
 
-func (a ankiRepository) CreateWaniKaniLookAlikeDecks(input []model.Transliterate,
+func (a ankiRepository) CreateWaniKaniLookAlikeDecks(
+	input []model.Transliterate,
 	name string) {
-	radicalAnki := []model.WaniKaniAnkiFormat{}
-	vocabAnki := []model.WaniKaniAnkiFormat{}
+	radicalAnki := []model.OutputWaniKaniAnkiFormat{}
+	vocabAnki := []model.OutputWaniKaniAnkiFormat{}
 
 	for i, v := range input {
 		if !isKanjiWord(v.Kanji) {
@@ -20,25 +21,27 @@ func (a ankiRepository) CreateWaniKaniLookAlikeDecks(input []model.Transliterate
 				v.Meanings = []string{v.Kana}
 			}
 			if !isAlreadyThere(radicalAnki, v.Kanji) {
-				radicalAnki = append(radicalAnki, model.WaniKaniAnkiFormat{
-					Title:               v.Kanji,
-					Meaning:             v.Meanings[0],
-					AlternativeMeanings: strings.Join(v.Meanings, "; "),
-					Reading:             "",
-					Index:               i + 1,
-				})
+				radicalAnki = append(
+					radicalAnki, model.OutputWaniKaniAnkiFormat{
+						Title:               v.Kanji,
+						Meaning:             v.Meanings[0],
+						AlternativeMeanings: strings.Join(v.Meanings, "; "),
+						Reading:             "",
+						Index:               i + 1,
+					})
 			}
 			continue
 		}
 
 		if !isAlreadyThere(vocabAnki, v.Kanji) {
-			vocabAnki = append(vocabAnki, model.WaniKaniAnkiFormat{
-				Title:               v.Kanji,
-				Meaning:             v.Meanings[0],
-				AlternativeMeanings: strings.Join(v.Meanings, "; "),
-				Reading:             v.Kana,
-				Index:               i + 1,
-			})
+			vocabAnki = append(
+				vocabAnki, model.OutputWaniKaniAnkiFormat{
+					Title:               v.Kanji,
+					Meaning:             v.Meanings[0],
+					AlternativeMeanings: strings.Join(v.Meanings, "; "),
+					Reading:             v.Kana,
+					Index:               i + 1,
+				})
 		}
 	}
 
@@ -46,7 +49,8 @@ func (a ankiRepository) CreateWaniKaniLookAlikeDecks(input []model.Transliterate
 	createAnkiDeck(vocabAnki, name+"-vocab")
 }
 
-func isAlreadyThere(subjects []model.WaniKaniAnkiFormat, title string) bool {
+func isAlreadyThere(
+	subjects []model.OutputWaniKaniAnkiFormat, title string) bool {
 	for _, s := range subjects {
 		if s.Title == title {
 			return true
@@ -56,7 +60,8 @@ func isAlreadyThere(subjects []model.WaniKaniAnkiFormat, title string) bool {
 	return false
 }
 
-func createAnkiDeck(subjects []model.WaniKaniAnkiFormat, filename string) {
+func createAnkiDeck(
+	subjects []model.OutputWaniKaniAnkiFormat, filename string) {
 
 	val, err := csvutil.Marshal(subjects)
 	if err != nil {

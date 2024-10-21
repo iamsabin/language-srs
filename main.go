@@ -12,5 +12,11 @@ func main() {
 		Words:          []string{"すみません", "ありがとう"},
 		OutputFilename: "recentmistakes-context-sentences-deck",
 	}
-	srv.CreateEnglishToJapaneseDeck(inputEnToJP)
+
+	if len(inputEnToJP.Words) > 0 {
+		srv.CreateEnglishToJapaneseDeck(inputEnToJP)
+	}
+
+	var inputFileName = "goodbye-aitomioka"
+	srv.CreateJapaneseToEnglishDeck(inputFileName)
 }

@@ -20,7 +20,7 @@ type repo struct {
 }
 
 func (r repo) GetKnownWords() ([]string, error) {
-	var input []model.WaniKaniAnkiFormat
+	var input []model.OutputWaniKaniAnkiFormat
 
 	// Directory containing the CSV files
 	dir := "repository/manual/output"
@@ -42,7 +42,7 @@ func (r repo) GetKnownWords() ([]string, error) {
 				log.Fatalf("failed to open file: %v", err)
 			}
 
-			var singleInput []model.WaniKaniAnkiFormat
+			var singleInput []model.OutputWaniKaniAnkiFormat
 			e := csvutil.Unmarshal(f, &singleInput)
 
 			if e != nil {

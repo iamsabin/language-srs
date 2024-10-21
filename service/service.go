@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 
@@ -16,7 +17,7 @@ import (
 )
 
 type Service interface {
-	CreateJapaneseToEnglishDeck()
+	CreateJapaneseToEnglishDeck(inputFileName string)
 	CreateEnglishToJapaneseDeck(input model.InputEnglishToJapanese)
 }
 
@@ -35,10 +36,11 @@ type service struct {
 	immersionRepo  repository.ImmersionRepository
 }
 
-func (s service) CreateJapaneseToEnglishDeck() {
-	inputFile := "goodbye-aitomioka"
-
-	input := getInput(inputFile)
+func (s service) CreateJapaneseToEnglishDeck(inputFileName string) {
+	input, err := getInput(inputFileName)
+	if err != nil {
+		return
+	}
 
 	var transliterated []model.Transliterate
 	for _, i := range input {
@@ -73,24 +75,25 @@ func hasInKnown(t model.Transliterate, knownSubjects []wanikani.Subject) bool {
 	return false
 }
 
-type Input struct {
-	Japanese string `csv:"Japanese"`
-	English  string `csv:"English"`
-}
-
-func getInput(inputFile string) []Input {
-	var input []Input
+func getInput(inputFile string) ([]model.InputTransliterate, error) {
+	var input []model.InputTransliterate
 
 	jpen, err := os.ReadFile("input/" + inputFile + ".csv")
 	if err != nil {
-		panic(err)
+		fileErr := fmt.Errorf("fail to read file: %s, err: %v", inputFile, err)
+		slog.Error(fileErr.Error())
+		return nil, err
 	}
 	err = csvutil.Unmarshal(jpen, &input)
 	if err != nil {
-		panic(err)
+		unmarshalErr := fmt.Errorf(
+			"fail to unmarshal file: %s, err: %v",
+			inputFile, err)
+		slog.Error(unmarshalErr.Error())
+		return nil, err
 	}
 
-	return input
+	return input, nil
 }
 
 func (s service) CreateEnglishToJapaneseDeck(input model.InputEnglishToJapanese) {
@@ -99,7 +102,7 @@ func (s service) CreateEnglishToJapaneseDeck(input model.InputEnglishToJapanese)
 		return
 	}
 
-	var allImmersionAnki []model.ImmersionAnkiFormat
+	var allImmersionAnki []model.OutputImmersionAnkiFormat
 	for i, v := range input.Words {
 		immersionAnki, _ := s.immersionRepo.GetImmersionInfo(
 			model.WaniKaniSubject{
