@@ -16,8 +16,12 @@ import (
 )
 
 type Service interface {
-	CreateJapaneseToEnglishDeck(inputFileName string)
+	// use this one when you already know the japanese,
+	// and try to strengthen your memory
 	CreateEnglishToJapaneseDeck(input model.InputEnglishToJapanese)
+
+	// use this one when you are trying to learn new japanese words
+	CreateJapaneseToEnglishDeck(inputFileName string)
 }
 
 func NewService() Service {
