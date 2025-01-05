@@ -18,5 +18,13 @@ type Response struct {
 			SoundUrl             string `json:"sound_url"`
 			Translation          string `json:"translation"`
 		} `json:"examples"`
+
+		Dictionary [][]struct {
+			GlossaryList []string `json:"glossary_list"`
+			Headword     string   `json:"headword"`
+			Reading      string   `json:"reading"`
+			Sound        string   `json:"sound"`
+			Tags         string   `json:"tags"`
+		} `json:"dictionary"`
 	} `json:"data"`
 }

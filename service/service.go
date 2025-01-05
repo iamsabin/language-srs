@@ -29,7 +29,7 @@ func NewService() Service {
 		knownWordsRepo: knownwords.NewRepository(),
 		ankiRepo:       anki.NewRepository(),
 		// TODO: Use wanikani level from input
-		immersionRepo: immersion.NewRepository(0),
+		immersionRepo: immersion.NewRepository(17),
 	}
 }
 

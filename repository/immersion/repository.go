@@ -6,6 +6,7 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+	"strings"
 
 	"language-srs/model"
 	"language-srs/repository"
@@ -89,15 +90,29 @@ func (r repo) GetImmersionInfo(keyword model.WaniKaniSubject) (
 			if i > r.maxNumber-1 {
 				break
 			}
+
+			// add ** for emphasis
+			translationText := v.Translation
+			if len(item.Dictionary) > 0 {
+				for _, g := range item.Dictionary[0] {
+					for _, h := range g.GlossaryList {
+						translationText = strings.ReplaceAll(translationText,
+							h, fmt.Sprintf("**%s**", h))
+					}
+				}
+			}
+
 			ankiFormats = append(
 				ankiFormats, model.OutputImmersionAnkiFormat{
-					Image:              v.ImageUrl,
-					ReadingText:        v.Sentence,
-					Audio:              v.SoundUrl,
-					AnswerTextFurigana: v.SentenceWithFurigana,
-					AnswerText:         v.Translation,
-					SortOrder:          keyword.ID,
-					OriginalText:       keyword.Text,
+					Image: v.ImageUrl,
+					ReadingText: strings.ReplaceAll(v.Sentence,
+						keyword.Text, fmt.Sprintf("**%s**", keyword.Text)),
+					Audio: v.SoundUrl,
+					AnswerTextFurigana: strings.ReplaceAll(v.SentenceWithFurigana,
+						keyword.Text, fmt.Sprintf("**%s**", keyword.Text)),
+					AnswerText:   translationText,
+					SortOrder:    keyword.ID,
+					OriginalText: keyword.Text,
 				})
 		}
 	}
